@@ -46,3 +46,34 @@ ggsave("temp_vs_time_humid.png", plot = p)
 ```
 Here's the saving progress.
 
+#Problem 2
+```{r}
+x <- rnorm(10)
+x_logical <- x > 0
+x_char <- letters[1:10]
+x_factor <- factor(rep(c("low", "medium", "high"), length.out = 10))  #creating values
+
+df <- data.frame(
+    num = x,
+    logi = x_logical,
+    char = x_char,
+    fac = x_factor
+)                                                        #creating data frame containing my value
+```
+
+```{r, message=FALSE}
+library(tidyverse)                                       #Load tidyverse
+df |> pull(num) |> mean()                            
+df |> pull(logi) |> mean()
+df |> pull(char) |> mean()
+df |> pull(fac) |> mean()                                #Getting means
+```
+
+```{r convert-to-numeric, warning=FALSE, results='hide'}
+as.numeric(df$logi)
+as.numeric(df$char)
+as.numeric(df$fac)
+```
+
+
+
