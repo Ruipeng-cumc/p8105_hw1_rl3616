@@ -60,7 +60,11 @@ df <- data.frame(
     fac = x_factor
 )                                                        #creating data frame containing my value
 ```
-
+We create four columns with distinct types: a numeric vector ```num``` drawn from a standard Normal distribution, a logical vector ```logi``` indicating whether each numeric entry is greater than 0, a character vector ```char``` of length 10 (letters “a”–“j”), and a factor vector ```fac``` with three levels (“low”, “medium”, “high”). These are combined into a single data frame ```df``` and we can output it to check our data.
+```{r}
+df                                                       #using this to output all our data
+```
+Next step, we start with ```library(tidyverse)```in order to use pull.
 ```{r, message=FALSE}
 library(tidyverse)                                       #Load tidyverse
 df |> pull(num) |> mean()                            
@@ -69,11 +73,30 @@ df |> pull(char) |> mean()
 df |> pull(fac) |> mean()                                #Getting means
 ```
 
+Here are our result, as we can see
+
+```mean(num)``` and ```mean(logi)``` works.
+
+```mean(char)``` and ```mean(fac)``` does not work.
+
+Now we can try to applies ```as.numeric``` function to convert non-numeric variables into numeric.
 ```{r convert-to-numeric, warning=FALSE, results='hide'}
 as.numeric(df$logi)
 as.numeric(df$char)
 as.numeric(df$fac)
 ```
 
+Applying ```as.numeric(logi)``` converts ```True``` and ```False```into ```1/0```. 
 
+Taking the mean again produces the same value as before — the proportion of ```TRUE``` values —
+because logical variables are naturally coerced to numeric when used in arithmetic.
 
+This explains why ```mean(logi`)``` works, while other non-numeric variables produce errors:
+mean can only operate on numeric data.
+
+Applying ```as.numeric(char)``` returns ```NA``` with a coercion warning,
+which confirms that character data cannot be meaningfully converted to numbers
+and therefore cannot have a mean.
+
+Applying ```as.numeric(fac)``` successfully returns the internal integer codes of the factor levels. The mean can be computed on these codes, however the result is not substantively meaningful
+unless the factor levels have a natural numeric ordering.
